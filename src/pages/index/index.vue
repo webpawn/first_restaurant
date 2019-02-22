@@ -1,105 +1,82 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
+    <div class='indexContainer'>
+        <img class='indexImg' src="/static/1.jpg" alt="">
+        <div class='indexBox'>
+          <button 
+            class='indexButton' 
+            open-type='getUserInfo' 
+            @getuserinfo='getUserInfo'
+          >先点菜吧</button>
+        </div>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-  </div>
 </template>
 
 <script>
-import card from '@/components/card'
-
 export default {
   data () {
     return {
-      motto: 'Hello World',
-      userInfo: {}
     }
-  },
-
-  components: {
-    card
   },
 
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
+    getUserInfo(e){
+      if(e.mp.detail.userInfo){
+          //存储到vuex中
+          console.log(e.mp.detail.userInfo);
+          this.$store.dispatch('setIsAuthenticated',true);
+          this.$store.dispatch('setUser',e.mp.detail.userInfo);
+          //获取code
+          this.getCode();
+          
+      }
     },
-    getUserInfo () {
-      // 调用登录接口
+    getCode(){
       wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
+        success: res => {
+          console.log(res);
+          this.getOpenid(res.code);
         }
       })
     },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+    getOpenid(code){
+      //获取openid需要三个参数
+      const appid='	wx5e560cdc895de182';
+      const secret='dafd1de12b554f08aba0f17b34eddb90';
+      this.$https
+        .request({
+        url:this.$interfaces.getOpenid+appid+'/'+secret+'/'+code,
+        method:'get'
+      })
+        .then(res => console.log(res))
+        .catch(error => {
+            wx.switchTab({
+            url:"../home/main"
+          })
+        })
     }
-  },
-
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
   }
 }
 </script>
 
-<style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+<style lang='stylus'  scoped>
+    .indexContainer
+      position:absolute
+      width:100%
+      height:100%
+      .indexImg
+        width:100%
+        height:100%
+      .indexBox
+        width:100%
+        position:absolute
+        bottom:100rpx
+        text-align:center
+        .indexButton
+          width:200rpx
+          line-height:80rpx
+          font-size:24rpx
+      
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
-}
+    
 </style>
+
