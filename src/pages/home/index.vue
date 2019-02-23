@@ -36,20 +36,17 @@
                         {{item}}
                     </div>
                 </scroll-view>
-                <scroll-view 
-                class='right' 
-                :scroll-y='true' @scrolltolower='scroll'
-                @scrolltoupper='scrolltoupper'
-                >
+                <div class='right' >
                     <div class='banner'>
                         <img src="/static/1.jpg" alt="">
                     </div>
                     <foodItem 
                         :catetitle='cateList[nowIndex]'
+                        :nowindex='nowIndex'
                         @clickHandle='showType'
                         ref='fooditem'
                     ></foodItem>
-                </scroll-view>
+                </div>
         </div>
 
         <div v-show='show' class='shopcart'>
@@ -92,24 +89,6 @@ export default {
         foodItem
     },
     methods:{
-        scrolltoupper(){
-            if(this.nowIndex!=0&&this.nowIndex<5){
-                this.nowIndex-=1
-            }else{
-                this.nowIndex=0
-            }
-            this.$refs.fooditem.request(this.nowIndex)
-            
-        },
-        scroll(){
-            if(this.nowIndex<5){
-                this.nowIndex+=1
-            }else{
-                this.nowIndex=0
-            }
-            this.$refs.fooditem.request(this.nowIndex)
-        
-        },
         showType(){
             this.show=!this.show
         },
@@ -220,8 +199,6 @@ export default {
             .right
                 flex:1
                 height:1012rpx
-                border:1px solid red
-                
                 .banner
                     width:100%
                     img 

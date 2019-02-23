@@ -13,7 +13,9 @@ const interfaces = {
     //同步购物车接口
     updateCart: domain + 'updateCart',
     //分类商品列表
-    getFood: domain + 'getFood'
+    getFood: domain + 'getFood',
+    //新闻列表接口
+    getNews: domain + 'getNews'
 }
 
 module.exports = interfaces

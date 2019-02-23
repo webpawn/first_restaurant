@@ -1,0 +1,20 @@
+{
+  "name": "mpvue_serve",
+  "version": "1.0.0",
+  "description": "personal server",
+  "main": "app.js",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express-session": "^1.15.6",
+    "express": "^4.16.3",
+    "cookie-parser": "^1.4.3",
+    "mysql": "^2.15.0",
+    "body-parser": "^1.18.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
