@@ -10,7 +10,7 @@
                 <span class='cateInco'>{{catetitle}}</span>
                 <span>大家都喜欢,才是真好吃</span>
             </div>
-            <div class='fooditem' v-for='(item,index) in foodList' :key=index 
+            <div class='fooditem' v-for='(item,index) in foodList' :key=item.id
             :id="'fl-'+index">
                 <div class='itemimg'>
                     <img :src=item.img_url alt="">
@@ -21,7 +21,22 @@
                     <p class='sales'>月售{{item.sale}} 好评率99% </p>
                     <div class='price_add_box'>
                         <span>¥{{item.price}}</span>
-                        <img src="/static/ic_menu_shoping_pressed.png" alt="" @click='clickhandle'>
+                        <img src="/static/ic_menu_shoping_pressed.png" alt="" @click='clickhandle(item.pid)'>
+                    </div>
+                </div>
+            </div>
+            <div class='fooditem' v-for='(item,index) in foodList' :key=item.id
+            :id="'fl-'+index">
+                <div class='itemimg'>
+                    <img :src=item.img_url alt="">
+                </div>
+                <div class='itemcontent'>
+                    <p class='name'>{{item.name}}</p>
+                    <p class='tips'>{{item.content}}</p>
+                    <p class='sales'>月售{{item.sale}} 好评率99% </p>
+                    <div class='price_add_box'>
+                        <span>¥{{item.price}}</span>
+                        <img src="/static/ic_menu_shoping_pressed.png" alt="" @click='clickhandle(item.pid)'>
                     </div>
                 </div>
             </div>
@@ -39,6 +54,7 @@ export default {
         }
     },
     methods:{
+        // 上划至顶及下滑至底时触发加载
         // scrolltoupper(){
         //     if(this.nowindex!=0&&this.nowindex<5){
         //         this.nowindex-=1
@@ -60,8 +76,8 @@ export default {
         //     this.toView='fl-0'
         //     console.log(this.toView)
         // },
-        clickhandle(){
-            this.$emit('clickHandle')
+        clickhandle(pid){
+            this.$emit('clickHandle',pid)
         },
         request(index){
             this.$https.request({
@@ -89,7 +105,6 @@ export default {
         border:1px solid #eee
         scroll-view
             height 712rpx
-            border:1px solid red
             overflow hidden
             .cateTitle
                 font-size:24rpx

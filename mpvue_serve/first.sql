@@ -72,6 +72,7 @@ INSERT INTO first_food VALUES(6,'寿司套餐','266','多达十种寿司搭配,�
 CREATE TABLE first_allfood(
   id INT PRIMARY KEY AUTO_INCREMENT,
   familyid INT, 
+  pid INT ,
   name VARCHAR(255),
   sale INT,
   content VARCHAR(255),
@@ -79,57 +80,31 @@ CREATE TABLE first_allfood(
   price DECIMAL(10,2)
 );
 
-INSERT INTO first_allfood VALUES(null,1,'劲爆牛排','66','高温肉汁淋在煎嫩了的牛排,味蕾的顶级碰触体验','http://127.0.0.1:3000/img/food_pic1.jpg',54.00);
-INSERT INTO first_allfood VALUES(null,1,'美味脆骨','68','香香脆脆吃了还想吃','http://127.0.0.1:3000/img/food_pic3.jpg',25.00);
-INSERT INTO first_allfood VALUES(null,1,'寿司套餐','266','多达十种寿司搭配,值得一试','http://127.0.0.1:3000/img/food_pic6.jpg',25.00);
-INSERT INTO first_allfood VALUES(null,1,'爱的煎蛋','806','天天吃鸡蛋,健健康康','http://127.0.0.1:3000/img/food_pic7.jpg',2.00);
-INSERT INTO first_allfood VALUES(null,1,'猕猴桃汁','116','新鲜猕猴桃,鲜榨','http://127.0.0.1:3000/img/food_pic19.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,1,'劲爆牛排','66','高温肉汁淋在煎嫩了的牛排,味蕾的顶级碰触体验','http://127.0.0.1:3000/img/food_pic1.jpg',54.00);
-INSERT INTO first_allfood VALUES(null,1,'美味脆骨','68','香香脆脆吃了还想吃','http://127.0.0.1:3000/img/food_pic3.jpg',25.00);
-INSERT INTO first_allfood VALUES(null,1,'寿司套餐','266','多达十种寿司搭配,值得一试','http://127.0.0.1:3000/img/food_pic6.jpg',25.00);
-INSERT INTO first_allfood VALUES(null,1,'爱的煎蛋','806','天天吃鸡蛋,健健康康','http://127.0.0.1:3000/img/food_pic7.jpg',2.00);
-INSERT INTO first_allfood VALUES(null,1,'猕猴桃汁','116','新鲜猕猴桃,鲜榨','http://127.0.0.1:3000/img/food_pic19.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,2,'香脆生煎','386','肉多汁美,十个不够','http://127.0.0.1:3000/img/food_pic4.jpg',12.00);
-INSERT INTO first_allfood VALUES(null,2,'温馨烧麦','606','皮薄馅多,汁水丰满','http://127.0.0.1:3000/img/food_pic5.jpg',11.50);
-INSERT INTO first_allfood VALUES(null,2,'爱的煎蛋','806','天天吃鸡蛋,健健康康','http://127.0.0.1:3000/img/food_pic7.jpg',2.00);
-INSERT INTO first_allfood VALUES(null,2,'好吃的鸡蛋饼','406','营养搭配,早餐必备','http://127.0.0.1:3000/img/food_pic8.jpg',8.00);
-INSERT INTO first_allfood VALUES(null,2,'一小笼','506','皮薄馅多,汁水丰满','http://127.0.0.1:3000/img/food_pic9.jpg',11.00);
-INSERT INTO first_allfood VALUES(null,2,'香脆生煎','386','肉多汁美,十个不够','http://127.0.0.1:3000/img/food_pic4.jpg',12.00);
-INSERT INTO first_allfood VALUES(null,2,'温馨烧麦','606','皮薄馅多,汁水丰满','http://127.0.0.1:3000/img/food_pic5.jpg',11.50);
-INSERT INTO first_allfood VALUES(null,2,'爱的煎蛋','806','天天吃鸡蛋,健健康康','http://127.0.0.1:3000/img/food_pic7.jpg',2.00);
-INSERT INTO first_allfood VALUES(null,2,'好吃的鸡蛋饼','406','营养搭配,早餐必备','http://127.0.0.1:3000/img/food_pic8.jpg',8.00);
-INSERT INTO first_allfood VALUES(null,2,'一小笼','506','皮薄馅多,汁水丰满','http://127.0.0.1:3000/img/food_pic9.jpg',11.00);
-INSERT INTO first_allfood VALUES(null,3,'美味脆骨','68','香香脆脆吃了还想吃','http://127.0.0.1:3000/img/food_pic3.jpg',25.00);
-INSERT INTO first_allfood VALUES(null,3,'红烧肉','48','好吃不腻...','http://127.0.0.1:3000/img/food_pic10.jpg',28.00);
-INSERT INTO first_allfood VALUES(null,3,'糖醋排骨','88','香!甜!脆!试过都说好好吃','http://127.0.0.1:3000/img/food_pic11.jpg',30.00);
-INSERT INTO first_allfood VALUES(null,3,'盐焗鸡块','28','香香的鸡块,大家都喜欢','http://127.0.0.1:3000/img/food_pic12.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,3,'美味脆骨','68','香香脆脆吃了还想吃','http://127.0.0.1:3000/img/food_pic3.jpg',25.00);
-INSERT INTO first_allfood VALUES(null,3,'红烧肉','48','好吃不腻...','http://127.0.0.1:3000/img/food_pic10.jpg',28.00);
-INSERT INTO first_allfood VALUES(null,3,'糖醋排骨','88','香!甜!脆!试过都说好好吃','http://127.0.0.1:3000/img/food_pic11.jpg',30.00);
-INSERT INTO first_allfood VALUES(null,3,'盐焗鸡块','28','香香的鸡块,大家都喜欢','http://127.0.0.1:3000/img/food_pic12.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,4,'寿司套餐','266','多达十种寿司搭配,值得一试','http://127.0.0.1:3000/img/food_pic6.jpg',25.00);
-INSERT INTO first_allfood VALUES(null,4,'三文鱼寿司','166','新鲜的三文鱼,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic2.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,4,'牛肉寿司','136','新鲜的牛肉,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic13.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,4,'三文鱼寿司','166','新鲜的三文鱼,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic2.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,4,'三文鱼寿司','166','新鲜的三文鱼,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic2.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,4,'牛肉寿司','136','新鲜的牛肉,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic13.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,4,'牛肉寿司','136','新鲜的牛肉,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic13.jpg',22.00);
-INSERT INTO first_allfood VALUES(null,5,'劲爆牛排','66','高温肉汁淋在煎嫩了的牛排,味蕾的顶级碰触体验','http://127.0.0.1:3000/img/food_pic1.jpg',54.00);
-INSERT INTO first_allfood VALUES(null,5,'盐焗皮皮虾','46','细细的盐撒在嫩嫩的虾上,赞','http://127.0.0.1:3000/img/food_pic14.jpg',64.00);
-INSERT INTO first_allfood VALUES(null,5,'椒盐鲑鱼','26','鱼肉香甜,脆脆的口感','http://127.0.0.1:3000/img/food_pic16.jpg',44.00);
-INSERT INTO first_allfood VALUES(null,5,'大龙虾','16','约会必备,好看又好吃','http://127.0.0.1:3000/img/food_pic17.jpg',64.00);
-INSERT INTO first_allfood VALUES(null,5,'劲爆牛排','66','高温肉汁淋在煎嫩了的牛排,味蕾的顶级碰触体验','http://127.0.0.1:3000/img/food_pic1.jpg',54.00);
-INSERT INTO first_allfood VALUES(null,5,'盐焗皮皮虾','46','细细的盐撒在嫩嫩的虾上,赞','http://127.0.0.1:3000/img/food_pic14.jpg',64.00);
-INSERT INTO first_allfood VALUES(null,5,'三明治','46','营养搭配,好吃的哟','http://127.0.0.1:3000/img/food_pic15.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,6,'新鲜草莓汁','96','新鲜草莓,鲜榨','http://127.0.0.1:3000/img/food_pic18.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,6,'猕猴桃汁','116','新鲜猕猴桃,鲜榨','http://127.0.0.1:3000/img/food_pic19.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,6,'蓝色生死恋','396','谁不想来一杯呢?','http://127.0.0.1:3000/img/food_pic20.jpg',34.00);
-INSERT INTO first_allfood VALUES(null,6,'新鲜草莓汁','96','新鲜草莓,鲜榨','http://127.0.0.1:3000/img/food_pic18.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,6,'猕猴桃汁','116','新鲜猕猴桃,鲜榨','http://127.0.0.1:3000/img/food_pic19.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,6,'蓝色生死恋','396','谁不想来一杯呢?','http://127.0.0.1:3000/img/food_pic20.jpg',34.00);
-INSERT INTO first_allfood VALUES(null,6,'新鲜草莓汁','96','新鲜草莓,鲜榨','http://127.0.0.1:3000/img/food_pic18.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,6,'猕猴桃汁','116','新鲜猕猴桃,鲜榨','http://127.0.0.1:3000/img/food_pic19.jpg',24.00);
-INSERT INTO first_allfood VALUES(null,6,'蓝色生死恋','396','谁不想来一杯呢?','http://127.0.0.1:3000/img/food_pic20.jpg',34.00);
+INSERT INTO first_allfood VALUES(null,1,1,'劲爆牛排','66','高温肉汁淋在煎嫩了的牛排,味蕾的顶级碰触体验','http://127.0.0.1:3000/img/food_pic1.jpg',54.00);
+INSERT INTO first_allfood VALUES(null,1,2,'美味脆骨','68','香香脆脆吃了还想吃','http://127.0.0.1:3000/img/food_pic3.jpg',25.00);
+INSERT INTO first_allfood VALUES(null,1,3,'红烧肉','48','好吃不腻...','http://127.0.0.1:3000/img/food_pic10.jpg',28.00);
+INSERT INTO first_allfood VALUES(null,1,4,'糖醋排骨','88','香!甜!脆!试过都说好好吃','http://127.0.0.1:3000/img/food_pic11.jpg',30.00);
+INSERT INTO first_allfood VALUES(null,1,5,'盐焗鸡块','28','香香的鸡块,大家都喜欢','http://127.0.0.1:3000/img/food_pic12.jpg',22.00);
+
+INSERT INTO first_allfood VALUES(null,2,6,'香脆生煎','386','肉多汁美,十个不够','http://127.0.0.1:3000/img/food_pic4.jpg',12.00);
+INSERT INTO first_allfood VALUES(null,2,7,'温馨烧麦','606','皮薄馅多,汁水丰满','http://127.0.0.1:3000/img/food_pic5.jpg',11.50);
+INSERT INTO first_allfood VALUES(null,2,8,'爱的煎蛋','806','天天吃鸡蛋,健健康康','http://127.0.0.1:3000/img/food_pic7.jpg',2.00);
+INSERT INTO first_allfood VALUES(null,2,9,'好吃的鸡蛋饼','406','营养搭配,早餐必备','http://127.0.0.1:3000/img/food_pic8.jpg',8.00);
+INSERT INTO first_allfood VALUES(null,2,10,'一小笼','506','皮薄馅多,汁水丰满','http://127.0.0.1:3000/img/food_pic9.jpg',11.00);
+
+INSERT INTO first_allfood VALUES(null,3,11,'鲜美寿司','166','新鲜的三文鱼,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic2.jpg',22.00);
+INSERT INTO first_allfood VALUES(null,3,12,'寿司套餐','266','多达十种寿司搭配,值得一试','http://127.0.0.1:3000/img/food_pic6.jpg',25.00);
+INSERT INTO first_allfood VALUES(null,3,14,'三文鱼寿司','166','新鲜的三文鱼,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic2.jpg',22.00);
+INSERT INTO first_allfood VALUES(null,3,15,'牛肉寿司','136','新鲜的牛肉,软糯弹牙的寿司','http://127.0.0.1:3000/img/food_pic13.jpg',22.00);
+
+INSERT INTO first_allfood VALUES(null,4,16,'盐焗皮皮虾','46','细细的盐撒在嫩嫩的虾上,赞','http://127.0.0.1:3000/img/food_pic14.jpg',64.00);
+INSERT INTO first_allfood VALUES(null,4,17,'椒盐鲑鱼','26','鱼肉香甜,脆脆的口感','http://127.0.0.1:3000/img/food_pic16.jpg',44.00);
+INSERT INTO first_allfood VALUES(null,4,18,'大龙虾','16','约会必备,好看又好吃','http://127.0.0.1:3000/img/food_pic17.jpg',64.00);
+INSERT INTO first_allfood VALUES(null,4,19,'三明治','46','营养搭配,好吃的哟','http://127.0.0.1:3000/img/food_pic15.jpg',24.00);
+
+INSERT INTO first_allfood VALUES(null,5,20,'猕猴桃汁','116','新鲜猕猴桃,鲜榨','http://127.0.0.1:3000/img/food_pic19.jpg',24.00);
+INSERT INTO first_allfood VALUES(null,5,21,'新鲜草莓汁','96','新鲜草莓,鲜榨','http://127.0.0.1:3000/img/food_pic18.jpg',24.00);
+INSERT INTO first_allfood VALUES(null,5,22,'蓝色生死恋','396','谁不想来一杯呢?','http://127.0.0.1:3000/img/food_pic20.jpg',34.00);
 
 #创建购物车表
 #first_cart
@@ -146,7 +121,7 @@ INSERT INTO first_allfood VALUES(null,6,'蓝色生死恋','396','谁不想来一
 CREATE TABLE first_cart(
   id INT PRIMARY KEY AUTO_INCREMENT,
   uid INT,
-  pid INT,
+  pid INT UNIQUE,
   count INT
 );
 INSERT INTO first_cart VALUES(null,1,1,1);
@@ -163,5 +138,5 @@ INSERT INTO first_cart VALUES(null,1,2,2);
 #-查找两张表1个列有关系(= != <= >= )
 #WHERE  c.pid = f.id 
 
-#SELECT c.uid,c.id,c.count,f.price,f.name FROM first_cart c,first_product f WHERE  c.pid = f.id 
+#SELECT c.uid,c.id,c.count,f.price,f.name FROM first_cart c,first_allfood f WHERE  c.pid = f.id 
 

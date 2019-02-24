@@ -24,7 +24,7 @@
                     <p class='sale'>月售{{item.sale}}</p>
                     <div class='price_add_box'>
                         <span>¥{{item.price}}</span>
-                        <img src="/static/ic_menu_shoping_pressed.png" alt="" @click='showType'>
+                        <img src="/static/ic_menu_shoping_pressed.png" alt="" @click='showType(item.id)'>
                     </div>
                 </div>
             </scroll-view>
@@ -50,22 +50,26 @@
         </div>
 
         <div v-show='show' class='shopcart'>
-            <div @click="showType" class="close">x</div>
-            <div class='shopcartitem'>
+            <div @click="close" class="close">x</div>
+            <div class='shopcartitem' v-for='item in cartList' :key='item.id'>
                 <div class='itemimg'>
-                    <img src="/static/food_pic1.jpg" alt="">
+                    <img :src="item.img_url" alt="">
                 </div>
                 <div class='itemcontent'>
-                    <span class='itemname'>美味套餐</span>
-                    <span>¥22</span>
+                    <span class='itemname'>{{item.name}}</span>
+                    <span>¥{{item.price*item.count}}</span>
                 </div>
                 <div class="count">
-                    <div @click="reduce" class="cut">-</div>
-                    <input class="number" disabled="" v-model="number" />
-                    <div @click="add" class="add">+</div>
+                    <div @click="reduce(item.pid,item.count)" class="cut">-</div>
+                    <input class="number" disabled="" :value='item.count'  />
+                    <div @click="add(item.pid)" class="add">+</div>
                 </div>
             </div>
-            
+            <div class='pay'>
+                <span>总计: </span>
+                <span class='allprise'>¥{{allPrise}}</span>
+                <button>去结算</button>
+            </div>
         </div>
     </div>
     
@@ -77,20 +81,76 @@ export default {
     data(){
         return{
             imgList:[],
-            cateList:['热销','早餐','正餐','寿司','西餐','饮品'],
+            cateList:['正餐','早餐','寿司','西餐','饮品'],
             nowIndex:0,
             foodList:[],
             pageSize:null,
             show:false,
-            number:1
+            cartList:[],
+            number:null
         }
     },
     components:{
         foodItem
     },
+    computed:{
+        allPrise(){
+            var prise=0;
+            for (let i=0;i<this.cartList.length;i++){
+                if(this.cartList[i]){
+                    prise=prise+this.cartList[i].price*this.cartList[i].count;
+                }
+            }
+            return prise;
+        }
+    },
     methods:{
-        showType(){
-            this.show=!this.show
+        reduce(id,count){
+            count=count-1
+            this.$https.request({
+            url:this.$interfaces.updateCart+'?id='+id+'&count='+count,
+            method:'get'
+            }).then(res => {
+                console.log(res)
+                this.$https.request({
+                    url:this.$interfaces.getCartList,
+                    method:'get'
+                }).then(res => {
+                    console.log(res)
+                    this.cartList=res.data
+                }).catch(error => {
+                    console.log(error)
+                })
+            }).catch(error => {console.log(error)})  
+        },
+        add(id){
+            this.addCart(id)
+        },
+        close(){
+            this.show=false
+        },
+        showType(id){
+            if(!this.show){
+                this.show=!this.show
+            }
+            this.addCart(id)
+        },
+        addCart(id){
+            this.$https.request({
+                    url:this.$interfaces.addCart+'?pid='+id,
+                    method:'get'
+                }).then(res => {
+                    console.log(res)
+                    this.$https.request({
+                        url:this.$interfaces.getCartList,
+                        method:'get'
+                    }).then(res => {
+                        console.log(res)
+                        this.cartList=res.data
+                    }).catch(error => {
+                        console.log(error)
+                    })
+                }).catch(error => {console.log(error)})
         },
         selectitem(index){
             this.$refs.fooditem.request(index)
@@ -123,8 +183,16 @@ export default {
         }).catch(error => {
             console.log(error)
         });
-        this.scrolltolower()
-    }
+        this.$https.request({
+            url:this.$interfaces.getGoodsList ,
+            method:"get"
+        }).then(res => {
+            console.log(res)
+            this.foodList=res.data
+        }).catch(error => {
+            console.log(error)
+        })
+    },
 }
 </script>
 
@@ -147,14 +215,12 @@ export default {
                 font-weight:bold
             .scroll-view
                 margin: 20rpx 0
-                border:1px solid red
                 width:100%
                 white-space: nowrap;
                 .foodItem
                     display:inline-block
                     width:300rpx
                     height:360rpx
-                    border:1px solid #eee
                     box-shadow:3rpx 3rpx 10rpx #eee
                     margin:0 10rpx
                     .detail_img
@@ -231,10 +297,14 @@ export default {
                     line-height:150rpx
                     font-size:28rpx
                     span
+                        display:inline-block
+                        width:150rpx
                         padding-left:50rpx
                         &:last-child
+                            width:100rpx
                             color:red 
-                            margin-left:50rpx
+                            
+                            
                 .count
                     margin-left:70rpx
                     div     
@@ -252,6 +322,7 @@ export default {
                         text-align center
                         vertical-align middle
                         margin-bottom 10rpx
+                
             .close
                 position:absolute
                 top:0
@@ -260,6 +331,17 @@ export default {
                 height 28rpx
                 margin:10rpx
                 color gray
+            .pay
+                span 
+                    display:inline-block
+                    font-size 32rpx
+                    padding:40rpx
+                .allprise
+                    padding-left:0
+                    color:red
+                button 
+                    background:#970007
+                    color:white
                 
 
 

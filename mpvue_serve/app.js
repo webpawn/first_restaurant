@@ -62,7 +62,7 @@ app.get("/getGoodsList",(req,res)=>{
   }
   //3:创建sql
   //  查询总页数
-  var sql = "SELECT count(id) as c FROM first_food";
+  var sql = "SELECT count(id) as c FROM first_allfood";
   var progress = 0; //sql执行进度
   obj = {code:1};
   pool.query(sql,(err,result)=>{
@@ -77,7 +77,7 @@ app.get("/getGoodsList",(req,res)=>{
   });
   //  查询当前页内容
 var sql=" SELECT id,name,sale,img_url,price,content";
-    sql +=" FROM first_food";
+    sql +=" FROM first_allfood";
     sql +=" LIMIT ?,?"
 var offset = parseInt((pno-1)*pageSize);
 pageSize = parseInt(pageSize);
@@ -111,14 +111,16 @@ app.get('/getFood',(req,res) => {
 })
 //功能四:将商品信息添加至购物车
 app.get("/addCart",(req,res)=>{
-  //1:参数 uid pid price count
+  //1:参数 uid pid count
   var uid   = parseInt(req.query.uid);
   var pid   = parseInt(req.query.pid);
   var count = parseInt(req.query.count);
+  if(!uid){uid=1}
+  if(!count){count=1}
   //2:sql  INSERT
   var sql=" INSERT INTO `first_cart`(`id`, ";
       sql+=" `uid`, `pid`,`count`)";
-      sql+="  VALUES (null,?,?,?)";
+      sql+="  VALUES (null,?,?,?) ON DUPLICATE KEY UPDATE count=count+1";
   pool.query(sql,[uid,pid,count],(err,result)=>{
       if(err)throw err;
       if(result.affectedRows > 0){
@@ -134,11 +136,11 @@ app.get("/addCart",(req,res)=>{
 app.get("/getCartList",(req,res)=>{
   //1:参数
   var uid = parseInt(req.query.uid); 
+  if(!uid){uid=1}
   //2:sql
-  var sql =" SELECT f.name,f.price,c.count";
-      sql +=" ,c.id";
-      sql +=" FROM first_food f,first_cart c";
-      sql +=" WHERE f.id = c.pid";
+  var sql =" SELECT f.pid,f.name,f.price,f.img_url,c.count";
+      sql +=" FROM first_allfood f,first_cart c";
+      sql +=" WHERE f.pid = c.pid";
       sql +=" AND c.uid = ?";    
   pool.query(sql,[uid],(err,result)=>{
       if(err)throw err;
@@ -147,23 +149,30 @@ app.get("/getCartList",(req,res)=>{
 })
 //功能六:同步购物中商品数量
 app.get("/updateCart",(req,res)=>{
-  //1:参数 id count
   var id = parseInt(req.query.id);
   var count = parseInt(req.query.count);
-  //2:sql UPDATE
-  var sql = " UPDATE first_cart SET count = ?";
-     sql += " WHERE id = ?";
-  pool.query(sql,[count,id],(err,result)=>{
-    if(err)throw err; //17:30 sub add
-    if(result.affectedRows > 0){
-      res.send({code:1,msg:"更新成功"});
-    }else{
-      res.send({code:-1,msg:"更新失败"});
-    }
-  })
-  //3:json {code:1,msg:""}
+  if(count==0){
+    var sql='DELETE FROM first_cart WHERE pid=?';
+    pool.query(sql,[id],(err,result)=>{
+      if(err)throw err;
+      if(result.affectedRows > 0){
+        res.send({code:1,msg:"更新成功"});
+      }else{
+        res.send({code:-1,msg:"更新失败"});
+      }
+    })
+  }else{
+    var sql = " UPDATE first_cart SET count = ? WHERE pid = ?";
+    pool.query(sql,[count,id],(err,result)=>{
+      if(err)throw err; //17:30 sub add
+      if(result.affectedRows > 0){
+        res.send({code:1,msg:"更新成功"});
+      }else{
+        res.send({code:-1,msg:"更新失败"});
+      }
+    })  
+  }
 })
-
 
 //功能二:新闻分页显示
 app.get("/getNews",(req,res)=>{
