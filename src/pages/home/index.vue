@@ -84,7 +84,7 @@ export default {
             cateList:['正餐','早餐','寿司','西餐','饮品'],
             nowIndex:0,
             foodList:[],
-            pageSize:null,
+            pageSize:3,
             show:false,
             cartList:[],
             number:null
@@ -157,16 +157,14 @@ export default {
             this.nowIndex=index;
         },
         scrolltolower(){
-            if(!this.pageSize){
-                this.pageSize=3;
-            }else{
-                this.pageSize+=3
-            }
+            if(this.pageSize==21){return}
+            this.pageSize+=3
             this.$https.request({
                 url:this.$interfaces.getGoodsList + '?pageSize='+this.pageSize,
                 method:"get"
             }).then(res => {
-                console.log(res)
+                // console.log(res)
+                // console.log(this.pageSize)
                 this.foodList=res.data
             }).catch(error => {
                 console.log(error)
@@ -175,23 +173,25 @@ export default {
     },
     created(){
         this.$https.request({
-            url:this.$interfaces.getImages,
-            method:'get'
-        }).then(res => {
-            // console.log(res)
-            this.imgList=res
-        }).catch(error => {
-            console.log(error)
-        });
-        this.$https.request({
             url:this.$interfaces.getGoodsList ,
             method:"get"
         }).then(res => {
-            console.log(res)
+            // console.log(res)
             this.foodList=res.data
+            this.$https.request({
+                url:this.$interfaces.getImages,
+                method:'get'
+            }).then(res => {
+                // console.log(res)
+                this.imgList=res
+            }).catch(error => {
+                console.log(error)
+            });
         }).catch(error => {
             console.log(error)
         })
+        
+        
     },
 }
 </script>

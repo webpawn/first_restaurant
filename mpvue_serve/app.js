@@ -40,55 +40,25 @@ app.get("/getImages",(req,res)=>{
 
 //#功能二:热销商品列表
 app.get("/getGoodsList",(req,res)=>{
-  //1:参数       pno 页码;pageSize 页大小
-  var pno = req.query.pno;
+  //pageSize 页大小
   var pageSize = req.query.pageSize;
-  //1.2:默认值
-  if(!pno){
-    pno = 1;
-  }
+  //默认值
   if(!pageSize){
     pageSize = 3;
   }
-  //2:验证正则表达式
-  var reg = /^[0-9]{1,}$/;
-  if(!reg.test(pno)){
-     res.send({code:-1,msg:"页码格式不正确"});
-     return;
-  }
-  if(!reg.test(pageSize)){
-    res.send({code:-2,msg:"页大小格式不正确"});
-    return;
-  }
   //3:创建sql
   //  查询总页数
-  var sql = "SELECT count(id) as c FROM first_allfood";
-  var progress = 0; //sql执行进度
   obj = {code:1};
-  pool.query(sql,(err,result)=>{
-       if(err)throw err;
-       //console.log(result[0].c);
-       var pageCount = Math.ceil(result[0].c/pageSize);
-       obj.pageCount = pageCount;
-       progress += 50;
-//       if(progress == 100){
-//        res.send(obj);
-//       }
-  });
   //  查询当前页内容
 var sql=" SELECT id,name,sale,img_url,price,content";
     sql +=" FROM first_allfood";
-    sql +=" LIMIT ?,?"
-var offset = parseInt((pno-1)*pageSize);
-pageSize = parseInt(pageSize);
-  pool.query(sql,[offset,pageSize],(err,result)=>{
+    sql +=" LIMIT 0,?"
+  pageSize = parseInt(pageSize);
+  pool.query(sql,[pageSize],(err,result)=>{
     if(err)throw err;
     //console.log(result);
     obj.data = result;
-    progress+=50;
-    if(progress==100){
-      res.send(obj);
-    }
+    res.send(obj);
   }); 
 });
 
